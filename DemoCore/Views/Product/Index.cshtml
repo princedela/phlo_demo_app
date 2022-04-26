@@ -1,0 +1,67 @@
+﻿@model OrderViewModel
+@{
+    ViewData["Title"] = "Add Product";
+    List<Product> products = ViewBag.Products == null? new List<Product>() : ViewBag.Products;
+}
+
+<form id="add-order-form" method="post">
+<fieldset class="border p-5">
+    <legend class="mx-auto w-auto">Add New Order</legend>
+
+        <div class="row">
+            <div class="col-md-6 mx-auto" >
+                <div class="form-group">
+                    <label asp-for="Customer">Customer Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Name (single word)" asp-for="Customer">
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductId">Product</label>
+                    <select class="form-control" id="product" asp-for="ProductId" >
+                        <option selected value="">--SELECT PRODUCT--</option>
+                        @foreach (var prod in products)
+                        {
+                            <option value="@prod.Id">@prod.Name</option>
+                        }
+                    </select> 
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price">Price</label>
+                    <input type="number" class="form-control" placeholder="0.00" id="price" asp-for="Price" step="0.01">
+                </div>
+                <br />
+               <button class="btn btn-block btn-info">Submit</button>
+            </div>
+    
+            </div>
+
+</fieldset>
+    </form>
+
+@section Scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            let form = document.getElementById('add-order-form');
+
+            form.addEventListener('submit',function(e){
+                let name = document.getElementById('name').value.trim();
+                let product = document.getElementById('product').value.trim();
+                let price = document.getElementById('price').value.trim();
+                let singleWordRegex = new RegExp("^[A-Za-z]+$")
+                if(!singleWordRegex.test(name)){
+                    return alertUser('Name must be a single word');
+                }
+                if(product.length < 1 || price.length < 1){
+                    return alertUser("All fields are required");
+                }
+                if (parseInt(price) <= 0) {
+                    return alertUser("Please enter a valid price");
+                }
+                function alertUser(message) {
+                    alert(message) 
+                    e.preventDefault();
+                }
+
+            })
+        })
+    </script>
+}

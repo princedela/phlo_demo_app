@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PHLO Sales</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <style>
+        main {
+            height: 100%
+        }
+        body{
+            height:100vh;
+            margin-bottom:0;
+        }
+        .welcome-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction:column;
+            height: 100%;
+            color: white;
+            background: url(/img/shopping.jpg);
+            background-repeat: no-repeat;
+            position: relative;
+            background-size: cover;
+        }
+
+            .welcome-flex > * {
+                z-index: 20
+            }
+
+            .welcome-flex::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.6);
+                display: block;
+                z-index: 11;
+            }
+    </style>
+
+    <div class="welcome-flex">
+        <h2>Welcome to Phlo Sales</h2>
+        <div>
+            <a class="btn btn-info" asp-controller="Product" asp-action="Index">Add New Order</a>
+            <a class="btn btn-success" asp-controller="Product" asp-action="List">View All Sales</a>
+        </div>
+    </div>
+
+</body>
+</html>

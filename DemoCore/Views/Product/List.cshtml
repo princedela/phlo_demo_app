@@ -1,0 +1,66 @@
+﻿@model ListViewModel
+@{
+    ViewData["Title"] = "List Products";
+    string message = string.IsNullOrWhiteSpace(ViewBag.Message) ? "" : ViewBag.Message;
+}
+<link href="~/lib/datatables/datatables.min.css" rel="stylesheet" />
+
+
+
+@if (message.Length > 0)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success</strong> @message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h5 class="my-3">Sales Orders (@Model.Orders.Count())</h5>
+<a class="btn btn-info my-3" asp-controller="Product" asp-action="Index"><i class="fa fa-plus"></i>Add New Order</a>
+
+
+
+<table id="orders-table" class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Highest Price Sold</th>
+            <th>Lowest Price Sold</th>
+            <th>Order Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.Orders)
+        {
+            foreach (var record in order.SalesRecords)
+            {
+                <tr>
+                    <td>@record.Id</td>
+                    <td>@record.CustomerName</td>
+                    <td>@record.Product.Name</td>
+                    <td>@record.Price</td>
+                    <td>@order.HighestPrice</td>
+                    <td>@order.LowestPrice</td>
+                    <td>@record.DateCreated.ToString("dd MMM, hh:mm tt")</td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <script src="~/lib/datatables/datatables.min.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function () {
+            $('#orders-table').DataTable();
+        });</script>
+
+
+}
+
